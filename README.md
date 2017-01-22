@@ -2,3 +2,4 @@
 GI Jam Winter 2017.
 
 Created by Hunter Derkach and Jiabo Hou.
+Hunter is cool
