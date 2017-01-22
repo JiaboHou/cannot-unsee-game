@@ -51,6 +51,7 @@ public class MatterController : MonoBehaviour {
 		case("Player"):
 			
 			Destroy (this.gameObject);
+            collision.collider.GetComponent<PlayerController>().takeDamage(1);
 			break;
 
 		case("Wall"):

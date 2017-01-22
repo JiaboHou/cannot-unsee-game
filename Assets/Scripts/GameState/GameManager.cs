@@ -7,8 +7,8 @@ using GIJamW2017.GameProperties;
 public class GameManager : MonoBehaviour {
 
     private static GameManager instance;
-    public int playerHealth;
-    public ArrayList enemies;
+    private bool playerDead = false;
+    private bool allEnemiesDestroyed = false;
 
     public static GameManager Instance
     {
@@ -22,21 +22,25 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void Start()
+    public void killPlayer()
     {
-        enemies = new ArrayList();
-        // Get list of enemies
+        playerDead = true;
+    }
+
+    public void allEnemiesAreDestroyed()
+    {
+        allEnemiesDestroyed = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-		if (enemies.Count <= 0)
-        {
-            initiateGameOver(true);
-        } else if (playerHealth <= 0)
+		if (playerDead)
         {
             initiateGameOver(false);
+        } else if (allEnemiesDestroyed)
+        {
+            initiateGameOver(true);
         }
 	}
 
