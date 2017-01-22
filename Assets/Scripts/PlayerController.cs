@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float moveSpeed = 0f;
+	public int health = 5;
 
 	Rigidbody rigidbody;
 	Camera viewCamera;
 	Vector3 velocity;
 
 	void Start () {
-		rigidbody = GetComponent<Rigidbody> ();
+		rigidbody = this.GetComponent<Rigidbody> ();
 		viewCamera = Camera.main;
 	}
 

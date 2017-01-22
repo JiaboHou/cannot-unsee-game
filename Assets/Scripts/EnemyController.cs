@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyController: MonoBehaviour {
 
-	public float fireInterval;
+	public float fireInterval = 0.5f;
+	public float fireDelay = 0.5f;
 	public float projectileSpeed = 10f;
 
 	private bool isShooting = false;
@@ -14,7 +15,6 @@ public class EnemyController: MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		matterProjectilePrefab = Resources.Load ("Matter Projectile") as GameObject;
-		Debug.Log (matterProjectilePrefab);
 	}
 	
 	// Update is called once per frame
@@ -26,7 +26,7 @@ public class EnemyController: MonoBehaviour {
 
 		if (Vector3.Distance (playerLocation, this.transform.position) <= 10 && !isShooting) {
 			isShooting = true;
-			InvokeRepeating ("Shoot", 0.5f, fireInterval);
+			InvokeRepeating ("Shoot", fireDelay, fireInterval);
 		} else if (Vector3.Distance (playerLocation, this.transform.position) > 10) {
 			CancelInvoke ("Shoot");
 			isShooting = false;
@@ -35,8 +35,14 @@ public class EnemyController: MonoBehaviour {
 	}
 
 	void Shoot() {
-		var projectile = Instantiate (matterProjectilePrefab, this.transform.position + this.transform.forward, this.transform.rotation);
+		var projectile = Instantiate (matterProjectilePrefab, this.transform.position + this.transform.forward * 0.55f, this.transform.rotation);
 		projectile.GetComponent<Rigidbody> ().velocity = projectile.transform.forward * projectileSpeed;
-		Destroy (projectile, 2f);
+		Destroy (projectile, 5f);
+	}
+
+	void OnCollisionEnter(Collision collision) {
+		if (collision.collider.tag == "MatterProjectile" && collision.collider.GetComponent<MatterController> ().getIsReflected ()) {
+			Destroy (this.gameObject);
+		}
 	}
 }
